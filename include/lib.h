@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 // ======================================================================================
 //                           DataValue
@@ -55,5 +56,33 @@ public:
     void printInfo() const override = 0;
     //PrintInfo reste virtuelle pure et sera à implémenter pour chaque classe dérivée
 };
+
+// ======================================================================================
+//                        Registre de ReadableComponent
+// Recense tous les ReadableComponent créés pour permettre leur recherche par label
+// Usage : lors de la construction d'un ReadableComponent, l'enregistrer dans la registry
+//         via ReadableComponentRegistry::registerComponent(this);
+//         pour retrouver un composant par son label, utiliser
+//         ReadableComponentRegistry::getComponentByLabel(label); (BUS en a besoin)
+// ======================================================================================
+class ReadableComponentRegistry {
+    private:
+        static inline std::vector<ReadableComponent*> registry;
+
+    public:
+        static void registerComponent(ReadableComponent* comp) {
+            registry.push_back(comp);
+        }
+        static ReadableComponent* getComponentByLabel(const std::string& lbl) {
+            for (auto comp : registry) {
+                if (comp->getLabel() == lbl) {
+                    return comp;
+                }
+            }
+            return nullptr; // Retourne nullptr si aucun composant trouvé
+        }
+
+};
+
 
 #endif
