@@ -2,8 +2,8 @@
 #define CPU_H__
 
 #include "lib.h"
-
-
+#include <vector>
+#include <list>
 
 enum OPCODE {
     NOP,
@@ -13,58 +13,67 @@ enum OPCODE {
     DIV
 };
 
+
 struct Instruction {
-    private:
-        OPCODE opcode;
-        int operand;
+private:
+    OPCODE opcode;
+    double operand_l;
+    double operand_r;
+public:
+    Instruction(OPCODE op = NOP, double l = 0.0, double r = 0.0)
+        : opcode(op), operand_l(l), operand_r(r) {}
+
+    double compute();  // implemented in cpu.cpp
 };
+
 
 struct Program {
+    std::list<Instruction> instructions;
 
-    Instruction* instructions;
-    Instruction compute();
-    void reset();
-
+    // Cette implementation de compute ne calcule qu'une instruction à la fois, c'est au cpu de relancer compute
+    double compute() {
+        double result = instructions.front().compute();
+        instructions.pop_front();
+        return result;
+    }
+    
+    void reset();           // implemented in cpu.cpp
 };
 
+
 struct Register {
-    private:
-        std::vector<DataValue> fifo;
-    public:
-        Register() = default;
+private:
+    std::vector<DataValue> fifo;
+public:
+    Register() = default;
 
-        // push a value to the back of the FIFO
-        void push(const DataValue &v) { fifo.push_back(v); }
-        void push(DataValue &&v) { fifo.push_back(std::move(v)); }
+    DataValue pop();        // implemented in cpu.cpp
 
-        // try to pop the front value; returns false if empty
-        bool try_pop(DataValue &out) {
-            if (fifo.empty()) return false;
-            out = fifo.front();
-            fifo.erase(fifo.begin());
-            return true;
-        }
+    // Definition des methodes utiles quand on travaille avec un FIFO. Definitions simples donc dans le header
 
-        // pop and return the front value; returns a default-constructed DataValue if empty
-        DataValue pop() {
-            if (fifo.empty()) return DataValue();
-            DataValue v = fifo.front();
-            fifo.erase(fifo.begin());
-            return v;
-        }
+    void push(const DataValue &v) {
+        fifo.push_back(v);
+    }
 
-        // peek at the front element (nullptr if empty)
-        const DataValue* peek() const {
-            return fifo.empty() ? nullptr : &fifo.front();
-        }
+    const DataValue* peek() const {
+        return fifo.empty() ? nullptr : &fifo.front();
+    }
 
-        size_t size() const { return fifo.size(); }
-        bool empty() const { return fifo.empty(); }
-        void clear() { fifo.clear(); }
+    size_t size() const { 
+        return fifo.size(); 
+    }
+    
+    bool empty() const {
+        return fifo.empty(); 
+    }
+    
+    void clear() {
+        fifo.clear();
+    }
 };
 
 struct CPU : public ReadableComponent {
-
+    
 };
 
 #endif
