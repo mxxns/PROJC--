@@ -11,8 +11,9 @@
 
 // ======================================================================================
 //                           TEST BUS
-// Généré à l'aide de l'IA pour aller plus vite
-// Verbose pour faciliter le debug
+// Généré à l'aide de l'IA pour aller plus vite, le procédé suivant à été décrit puis le 
+// code généré a été corrigé et adapté manuellement.
+// Particularités : Verbose pour faciliter le debug
 // Procédure :
 // Créé le ReadableComponentRegistry et ReadableComponent (FakeSource) pour simuler des sources
 // Lit les fichiers de bus pour extraire les labels des sources
@@ -21,14 +22,6 @@
 // Simule deux cycles de chaque BUS
 // Lit toutes les valeurs prêtes de chaque BUS et vérifie l'ordre et la continuité
 // ======================================================================================
-
-
-static std::string trim(const std::string& s) {
-    size_t a = s.find_first_not_of(" \t\r\n");
-    if (a == std::string::npos) return "";
-    size_t b = s.find_last_not_of(" \t\r\n");
-    return s.substr(a, b - a + 1);
-}
 
 // Fake source implémentant ReadableComponent pour les tests.
 // On suppose l'existence de ReadableComponentRegistry::registerComponent.

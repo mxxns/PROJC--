@@ -10,9 +10,7 @@
 // ======================================================================================
 //                           BUS
 // Lien entre tous les Component
-// Méthodes :
-//   - bindSource(label) : lie une source ReadableComponent au BUS via son label,
-//                        utilise ReadableComponentRegistry pour retrouver le pointeur
+// Méthodes pertinentes :
 //   - simulate() : cf. code
 //   - read() : lit une donnée prête depuis le BUS
 //   - printInfo() : affiche les informations du BUS
@@ -37,7 +35,7 @@ class BUS : public ReadableComponent {
         void bindSource(const std::string& sourceLabel) {
             source = ReadableComponentRegistry::getComponentByLabel(sourceLabel);
             if (!source) {
-                std::cerr << "BUS::bindSource: source with label \"" << sourceLabel << "\" not found\n";
+                std::cerr << "Source with label \"" << sourceLabel << "\" not found\n";
             }
         }
 
@@ -76,14 +74,8 @@ class BUS : public ReadableComponent {
                       << " reads=" << readCount
                       << std::endl;
         }
-    
-        static std::string trim(const std::string& s) {
-            size_t start = s.find_first_not_of(" \t");
-            size_t end = s.find_last_not_of(" \t");
-            if (start == std::string::npos) return "";
-            return s.substr(start, end - start + 1);
-        }
 
+        //S'assure qu'on charge bien un BUS
         bool loadFromFile(const std::string& filename) {
             std::ifstream file(filename);
             if (!file.is_open()) {
@@ -102,9 +94,8 @@ class BUS : public ReadableComponent {
                     value = trim(value);
 
                     if (key == "TYPE") {
-                        type = value;
                         if (value != "BUS") {
-                            std::cerr << "Error: TYPE must be 'BUS', found '" << type << "' instead." << std::endl;
+                            std::cerr << "Error: TYPE must be 'BUS', found '" << value << "' instead." << std::endl;
                             return false;
                         }
                     }
@@ -112,6 +103,14 @@ class BUS : public ReadableComponent {
                     else if (key == "WIDTH") width = std::stoi(value);
                     else if (key == "SOURCE") bindSource(value);
                 }
+            }
+
+            // Enregistrer le bus dans le registre si aucun composant avec ce label n'existe encore
+            ReadableComponent* existing = ReadableComponentRegistry::getComponentByLabel(getLabel());
+            if (existing == nullptr) {
+                ReadableComponentRegistry::registerComponent(this);
+            } else if (existing != this) {
+                std::cerr << "A bus with label '" << getLabel() << "' is already registered\n";
             }
 
             return true;
