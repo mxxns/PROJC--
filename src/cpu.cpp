@@ -34,23 +34,17 @@ void Program::load(const std::string &filename) {
     double op_l, op_r;
 
     while (file >> opcode_str >> op_l >> op_r) {
-        switch(opcode_str){
-            case "ADD":
-                opcode = ADD;
-                break;
-            case "SUB":
-                opcode = SUB;
-                break;
-            case "MUL":
-                opcode = MUL;
-                break;
-            case "DIV":
-                opcode = DIV;
-                break;
-            default:                                // Rajouter ici une erreur pour la detection d'opcode invalide
-                opcode = NOP;
-                break;
-        }
+        if (opcode_str == "ADD")
+            opcode = ADD;
+        else if (opcode_str == "SUB")
+            opcode = SUB;
+        else if (opcode_str == "MUL")
+            opcode = MUL;
+        else if (opcode_str == "DIV")
+            opcode = DIV;
+        else
+            opcode = NOP;
+        
         instructions.emplace_back(opcode, op_l, op_r); // Ajouter l'instruction à la fin de la liste
     }
 
