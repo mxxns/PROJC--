@@ -1,0 +1,101 @@
+#include "cpu.h"
+
+double Instruction::compute() {
+    switch (opcode) {
+        case ADD:
+            return operand_l + operand_r;
+        case SUB:
+            return operand_l - operand_r;
+        case MUL:
+            return operand_l * operand_r;
+        case DIV:
+            if (operand_r != 0.0) {
+                return operand_l / operand_r;
+            } else {
+                std::cerr << "Error: Division by zero." << std::endl;
+                return 0.0;
+            }
+        case NOP:
+            return 0.0;
+    }
+}
+
+void Program::load(const std::string &filename) {
+    instructions.clear();
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open program file: " << filename << std::endl;
+        return;
+    }
+
+    std::string opcode_str;
+    OPCODE opcode;
+    double op_l, op_r;
+
+    while (file >> opcode_str >> op_l >> op_r) {
+        switch(opcode_str){
+            case "ADD":
+                opcode = ADD;
+                break;
+            case "SUB":
+                opcode = SUB;
+                break;
+            case "MUL":
+                opcode = MUL;
+                break;
+            case "DIV":
+                opcode = DIV;
+                break;
+            default:                                // Rajouter ici une erreur pour la detection d'opcode invalide
+                opcode = NOP;
+                break;
+        }
+        instructions.emplace_back(opcode, op_l, op_r); // Ajouter l'instruction à la fin de la liste
+    }
+
+    reset();
+}
+
+Instruction Program::compute() {
+    if (pc == instructions.end()) {
+        reset();
+        return Instruction(NOP);
+    }
+    else {
+        Instruction instr = *pc;
+        ++pc;
+        return instr;
+    }
+}
+
+DataValue Register::pop() {
+    if (fifo.empty()) {
+        std::cerr << "Error: Attempt to pop from an empty register." << std::endl;
+        return DataValue();
+    }
+    else{
+        DataValue val = fifo.front();
+        fifo.erase(fifo.begin());
+        return val;
+    }
+}
+
+void CPU::simulate() {
+    for (int i = 0; i < frequency; ++i) {
+        Instruction instr = program.compute();
+        if (instr.opcode != NOP) {
+            double result = instr.compute();
+            registers.push(DataValue(result, true));
+        }
+        else {
+            if (active_core >= n_cores - 1) {
+                active_core = 0;
+                program.reset();
+                break;
+            } else {
+                ++active_core;
+            }
+        }
+    }
+}

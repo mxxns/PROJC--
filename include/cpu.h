@@ -2,6 +2,7 @@
 #define CPU_H__
 
 #include "lib.h"
+#include <fstream>
 #include <vector>
 #include <list>
 
@@ -16,10 +17,11 @@ enum OPCODE {
 
 struct Instruction {
 private:
-    OPCODE opcode;
     double operand_l;
     double operand_r;
+
 public:
+    OPCODE opcode;
     Instruction(OPCODE op = NOP, double l = 0.0, double r = 0.0)
         : opcode(op), operand_l(l), operand_r(r) {}
 
@@ -28,16 +30,18 @@ public:
 
 
 struct Program {
+private:
     std::list<Instruction> instructions;
+    std::list<Instruction>::iterator pc = instructions.begin(); // program counter, pointant sur l'instruction courante
 
-    // Cette implementation de compute ne calcule qu'une instruction à la fois, c'est au cpu de relancer compute
-    double compute() {
-        double result = instructions.front().compute();
-        instructions.pop_front();
-        return result;
-    }
+public:
+    Instruction compute();       // implemented in cpu.cpp
+
+    void load(const std::string &filename); //implemented in cpu.cpp
     
-    void reset();           // implemented in cpu.cpp
+    void reset(){
+        pc = instructions.begin();
+    };
 };
 
 
@@ -58,22 +62,29 @@ public:
     const DataValue* peek() const {
         return fifo.empty() ? nullptr : &fifo.front();
     }
-
-    size_t size() const { 
-        return fifo.size(); 
-    }
-    
-    bool empty() const {
-        return fifo.empty(); 
-    }
-    
-    void clear() {
-        fifo.clear();
-    }
 };
 
 struct CPU : public ReadableComponent {
-    
-};
+    public:
+        CPU(int freq = 1000, int n_cores = 1, const std::string &lbl = "") 
+            : ReadableComponent(lbl), frequency(freq), n_cores(n_cores), active_core(0) {};
+
+        DataValue read() override{
+            return registers.pop();
+        };
+
+        void loadProgram(const std::string &filename){
+            program.load(filename);
+        }
+
+        void simulate() override;  // definition de la methode virtuelle de component, implementee dans cpu.cpp
+
+    private:
+        int frequency;
+        int n_cores;
+        int active_core;
+        Program program;
+        Register registers;
+};      
 
 #endif
