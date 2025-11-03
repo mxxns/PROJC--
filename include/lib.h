@@ -84,6 +84,13 @@ class ReadableComponentRegistry {
             return nullptr; // Retourne nullptr si aucun composant trouvé
         }
 
+        static void printAllComponents() {
+            std::cout << "Registered ReadableComponents:" << std::endl;
+            for (auto comp : registry) {
+                std::cout << " - " << comp->getLabel() << std::endl;
+            }
+        }
+
 };
 
 // ======================================================================================

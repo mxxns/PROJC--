@@ -31,6 +31,10 @@ class Platform : public ReadableComponent {
     
     virtual ~Platform() = default;
 
+    ReadableComponentRegistry& getRegistry() {
+        return registry;
+    }
+
     bool loadFromFile(const std::string& filename) override{
         std::cout << "Loading platform configuration from " << filename << std::endl;
 
