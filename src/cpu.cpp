@@ -1,4 +1,7 @@
 #include "cpu.h"
+#include <sstream>
+#include <fstream>
+#include <string>
 
 double Instruction::compute() {
     switch (opcode) {
@@ -61,6 +64,33 @@ Instruction Program::compute() {
         ++pc;
         return instr;
     }
+}
+
+bool CPU::loadFromFile(const std::string& filename) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            std::cerr << "Error: Could not open " << filename << std::endl;
+            return false;
+        }
+        std::string line, key, value, type;
+        while (std::getline(file, line)) {
+            if (line.empty()) continue;
+            std::istringstream iss(line);
+            if (std::getline(iss, key, ':') && std::getline(iss, value)) {
+                key = trim(key);
+                value = trim(value);
+                if (key == "TYPE") {
+                    if (value != "CPU") {
+                        std::cerr << "Error: TYPE must be 'CPU', found '" << value << "' instead." << std::endl;
+                        return false;
+                    }
+                }
+                else if (key == "LABEL") setLabel(value);
+                else if (key == "N_CORES") setNCores(stoi(value));
+                else if (key == "FREQUENCY") setFrequency(stoi(value));
+            }
+        }
+        return true;
 }
 
 DataValue Register::pop() {

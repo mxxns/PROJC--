@@ -42,7 +42,7 @@ public:
                   << std::endl;
     }
 
-    bool loadFromFile(const std::string& filename) {
+    bool loadFromFile(const std::string& filename) override{
             std::ifstream file(filename);
             if (!file.is_open()) {
                 std::cerr << "Error: Could not open " << filename << std::endl;
@@ -71,7 +71,7 @@ public:
             }
 
             return true;
-        }
+    }
 
     void simulate() override {
         if (!source)

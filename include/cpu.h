@@ -69,12 +69,29 @@ struct CPU : public ReadableComponent {
         CPU(int freq = 1000, int n_cores = 1, const std::string &lbl = "") 
             : ReadableComponent(lbl), frequency(freq), n_cores(n_cores), active_core(0) {};
 
+        ~CPU() override = default;
+
         DataValue read() override{
             return registers.pop();
         };
 
+        bool loadFromFile(const std::string &filename) override;
+
         void loadProgram(const std::string &filename){
             program.load(filename);
+        }
+
+        void setFrequency(int freq){frequency = freq;}
+        void setNCores(int n){n_cores = n;}
+        void setActiveCore(int core){active_core = core;}
+
+        void printInfo() const override {
+            std::cout << "CPU info: "
+                      << "\" label=\"" << getLabel() << "\""
+                      << " frequency=" << frequency
+                      << " n_cores=" << n_cores
+                      << " active_core=" << active_core
+                      << std::endl;
         }
 
         void simulate() override;  // definition de la methode virtuelle de component, implementee dans cpu.cpp

@@ -79,7 +79,7 @@ public:
     std::string getSourceLabel() const { return source ? source->getLabel() : "No source"; }
 
     //Reprise de bus.h et s'assure qu'on charge bien une mémoire
-    bool loadFromFile(const std::string& filename) {
+    bool loadFromFile(const std::string& filename) override{
         std::ifstream file(filename);
         if (!file.is_open()) {
             std::cerr << "Error : could not load " << filename << "\n";

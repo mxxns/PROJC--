@@ -28,6 +28,8 @@ public:
 
     virtual void simulate() = 0; // Méthode virtuelle pure que tous les components doivent implémenter
 
+    virtual bool loadFromFile(const std::string& filename) = 0; //Méthode virtuelle pure pour charger la config depuis un fichier
+
     virtual void printInfo() const = 0; //Utile pour debug, "const" permet de s'assurer que la méthode ne modifie pas l'objet
 };
 
