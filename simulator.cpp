@@ -16,7 +16,7 @@ const std::string RESET  = "\033[0m";
 const std::string BLUE = "\033[34m";
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
+    if (argc < 2) {
         std::cerr << RED << "Usage: " << argv[0] << " <platform_config_file>" << RESET << std::endl;
         return 1;
     }
