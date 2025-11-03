@@ -2,11 +2,6 @@
 #define BUS_H__
 
 #include "lib.h"
-#include <queue>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <iostream>
 
 // ======================================================================================
 //                           BUS

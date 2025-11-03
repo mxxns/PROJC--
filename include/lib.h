@@ -1,9 +1,15 @@
 #ifndef LIB_H
 #define LIB_H
 
-#include <iostream>
-#include <string>
+#include <fstream>
 #include <vector>
+#include <list>
+#include <queue>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <memory>
+
 
 // ======================================================================================
 //                           DataValue

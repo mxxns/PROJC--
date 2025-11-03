@@ -7,13 +7,6 @@
 #include "mem.h"
 #include "display.h"
 
-#include <sstream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <memory>
-#include <iostream>
-
 // ======================================================================================
 //                                 PLATFORM
 // ======================================================================================

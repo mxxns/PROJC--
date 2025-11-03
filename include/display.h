@@ -2,11 +2,6 @@
 #define DISPLAY_H
 
 #include "lib.h"
-#include <queue>
-#include <sstream>
-#include <fstream>
-#include <string>
-#include <iostream>
 
 // ======================================================================================
 //                                   DISPLAY

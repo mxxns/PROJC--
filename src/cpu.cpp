@@ -58,7 +58,6 @@ void Program::load(const std::string &filename) {
 Instruction Program::compute() {
     if (pc == instructions.end()) {
         reset();
-        std::cout << "End of program reached, resetting PC. Size :" << instructions.size() << std::endl;
         return Instruction(NOP);
     }
     else {

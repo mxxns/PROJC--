@@ -1,4 +1,4 @@
 TYPE: BUS
 LABEL: Auxiliary bus
-WIDTH: 2
+WIDTH: 3
 SOURCE: Coproc

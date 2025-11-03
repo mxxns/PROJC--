@@ -2,9 +2,6 @@
 #define CPU_H__
 
 #include "lib.h"
-#include <fstream>
-#include <vector>
-#include <list>
 
 enum OPCODE {
     NOP,

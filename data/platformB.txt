@@ -1,0 +1,6 @@
+TYPE: PLATFORM
+LABEL: B platform
+COMPONENT: data/cpu2.txt
+COMPONENT: data/bus2.txt
+COMPONENT: data/mem2.txt
+COMPONENT: data/display2.txt

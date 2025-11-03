@@ -2,11 +2,6 @@
 #define MEM_H__
 
 #include "lib.h"
-#include <vector>
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <iostream>
 
 // ======================================================================================
 //                           MEMORY

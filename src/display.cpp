@@ -1,13 +1,11 @@
 #include "display.h"
 
-// ========================= Constructor / Destructor =========================
 Display::Display(int rate)
     : refreshRate(rate)
 {}
 
 Display::~Display() = default;
 
-// ========================= Get / Set =========================
 int Display::getRefreshRate() const {
     return refreshRate;
 }
@@ -16,7 +14,6 @@ void Display::setRefreshRate(int rate) {
     refreshRate = rate;
 }
 
-// ========================= Bind Source =========================
 void Display::bindSource(const std::string& sourceLabel) {
     source = ReadableComponentRegistry::getComponentByLabel(sourceLabel);
     if (!source) {
@@ -28,7 +25,6 @@ std::string Display::getSourceLabel() const {
     return source ? source->getLabel() : "No source";
 }
 
-// ========================= Print Info =========================
 void Display::printInfo() const {
     std::cout << "DISPLAY info: "
               << " refreshRate=" << refreshRate
@@ -37,7 +33,6 @@ void Display::printInfo() const {
               << std::endl;
 }
 
-// ========================= Load From File =========================
 bool Display::loadFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -69,7 +64,6 @@ bool Display::loadFromFile(const std::string& filename) {
     return true;
 }
 
-// ========================= Simulate =========================
 void Display::simulate() {
     if (!source) return;
 

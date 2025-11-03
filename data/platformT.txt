@@ -1,0 +1,4 @@
+TYPE: PLATFORM
+LABEL: Top platform
+COMPONENT: data/platformA.txt
+COMPONENT: data/platformB.txt
