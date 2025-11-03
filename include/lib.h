@@ -91,6 +91,10 @@ class ReadableComponentRegistry {
             }
         }
 
+        static bool isEmpty() {
+            return registry.empty();
+        }
+
 };
 
 // ======================================================================================

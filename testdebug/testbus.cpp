@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <cmath>
 
-#include "../include/bus.h"
-#include "../include/lib.h"
+#include "bus.h"
+#include "lib.h"
 
 // ======================================================================================
 //                           TEST BUS
@@ -51,6 +51,11 @@ public:
 
     void simulate() override {
         // pas de comportement de simulation pour la source factice
+    }
+
+    bool loadFromFile(const std::string& filename) override {
+        // pas de chargement depuis fichier pour la source factice
+        return true;
     }
 
     void printInfo() const override {

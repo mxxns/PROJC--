@@ -21,6 +21,7 @@ double Instruction::compute() {
         case NOP:
             return 0.0;
     }
+    return 0.0; //fallback
 }
 
 void Program::load(const std::string &filename) {
@@ -110,7 +111,7 @@ void CPU::simulate() {
         Instruction instr = program.compute();
         if (instr.opcode != NOP) {
             double result = instr.compute();
-            registers.push(DataValue(result, true));
+            registers.push(DataValue(result, true));  
         }
         else {
             if (active_core >= n_cores - 1) {

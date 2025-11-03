@@ -64,7 +64,7 @@ public:
     }
 };
 
-struct CPU : public ReadableComponent {
+class CPU : public ReadableComponent {
     public:
         CPU(int freq = 1000, int n_cores = 1, const std::string &lbl = "") 
             : ReadableComponent(lbl), frequency(freq), n_cores(n_cores), active_core(0) {};

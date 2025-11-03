@@ -1,7 +1,9 @@
-testdata/mem1.txt
-testdata/mem2.txt
-testdata/bus1.txt
-testdata/bus2.txt
-testdata/cpu1.txt
-testdata/cpu2.txt
-testdata/display.txt
+TYPE: PLATFORM
+LABEL: Top platform
+COMPONENT: data/cpu1.txt
+COMPONENT: data/cpu2.txt 
+COMPONENT: data/bus1.txt
+COMPONENT: data/bus2.txt
+COMPONENT: data/mem1.txt
+COMPONENT: data/mem2.txt
+COMPONENT: data/display.txt
