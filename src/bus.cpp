@@ -34,7 +34,6 @@ void BUS::simulate() {
 
     // Étape 2 : lecture de la source
     for (int i = 0; i < width; ++i) {
-        source->read();
         DataValue data = source->read();
         if (!data.valid) break; // arrêt si donnée invalide
         pending.push(data);

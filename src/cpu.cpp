@@ -58,6 +58,7 @@ void Program::load(const std::string &filename) {
 Instruction Program::compute() {
     if (pc == instructions.end()) {
         reset();
+        std::cout << "End of program reached, resetting PC. Size :" << instructions.size() << std::endl;
         return Instruction(NOP);
     }
     else {
@@ -87,8 +88,12 @@ bool CPU::loadFromFile(const std::string& filename) {
                     }
                 }
                 else if (key == "LABEL") setLabel(value);
-                else if (key == "N_CORES") setNCores(stoi(value));
+                else if (key == "CORES") setNCores(stoi(value));
                 else if (key == "FREQUENCY") setFrequency(stoi(value));
+                else if (key == "PROGRAM") loadProgram(value);
+                else {
+                    std::cerr << "Warning: Unknown key '" << key << "' in " << filename << std::endl;
+                }
             }
         }
         return true;
@@ -96,8 +101,7 @@ bool CPU::loadFromFile(const std::string& filename) {
 
 DataValue Register::pop() {
     if (fifo.empty()) {
-        std::cerr << "Error: Attempt to pop from an empty register." << std::endl;
-        return DataValue();
+        return DataValue(0.0, false);
     }
     else{
         DataValue val = fifo.front();
@@ -123,4 +127,13 @@ void CPU::simulate() {
             }
         }
     }
+}
+
+void CPU::printInfo() const {
+    std::cout << "CPU info: "
+        << "\" label=\"" << getLabel() << "\""
+        << " frequency=" << frequency
+        << " n_cores=" << n_cores
+        << " active_core=" << active_core
+        << std::endl;
 }

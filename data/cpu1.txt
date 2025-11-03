@@ -2,4 +2,4 @@ TYPE: CPU
 LABEL: Main processing unit
 CORES: 4
 FREQUENCY: 5
-PROGRAM: testdata/program.txt
+PROGRAM: data/program2.txt

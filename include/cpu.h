@@ -85,14 +85,7 @@ class CPU : public ReadableComponent {
         void setNCores(int n){n_cores = n;}
         void setActiveCore(int core){active_core = core;}
 
-        void printInfo() const override {
-            std::cout << "CPU info: "
-                      << "\" label=\"" << getLabel() << "\""
-                      << " frequency=" << frequency
-                      << " n_cores=" << n_cores
-                      << " active_core=" << active_core
-                      << std::endl;
-        }
+        void printInfo() const override;
 
         void simulate() override;  // definition de la methode virtuelle de component, implementee dans cpu.cpp
 
